@@ -41,6 +41,11 @@ When the dev command is ran both the next dev server and convo-lang sync server 
 Convo-Lang sync server will automatically synchronize types between TypeScript and Convo-Lang
 as changes to the project are made.
 
+## Convo-Lang Syntax Highlighting
+Install the Convo-Lang VSCode extension to enjoy Convo-Lang syntax highlighting
+
+https://marketplace.visualstudio.com/items?itemName=IYIO.convo-lang-tools
+
 
 ## Learn More
 
