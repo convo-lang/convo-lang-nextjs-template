@@ -1,115 +1,119 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { ConvoView } from "@/components/ConvoView";
+import { TodoItem } from "@/lib/types";
+import { useState } from "react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
-export default function Home() {
-  return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              pages/index.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+export default function IndexPage()
+{
+
+    const [todoList,setTodoList]=useState<TodoItem[]>([]);
+
+    return (
+        <div className="w-full h-[100vh] flex flex-col p-4 gap-4 text-white">
+
+            <div className="flex flex-row justify-between">
+                <div>
+                    <a className="!underline" href="https://learn.convo-lang.ai" target="_blank">Learn Convo-Lang</a>
+                </div>
+                <div>
+                    <p className="opacity-50">Try typing "/source"</p>
+                </div>
+            </div>
+
+            <div className="flex flex-row flex-1 gap-4">
+                <div className="flex-1 border border-zinc-700 rounded-md p-4 gap-2 flex flex-col">
+                    <h1 className="text-xl">Todo List</h1>
+                    
+                    {!todoList.length?
+                        <p className="opacity-50">Todo list is empty</p>
+                    :
+                        todoList.map(item=>(
+                            <div key={item.id} className="border border-zinc-700 p-2 flex flex-row justify-between">
+                                <span>{item.todo}</span>
+                                {!!item.date && <span className="opacity-50">{item.date}</span>}
+                            </div>
+                        ))
+                    }               
+                </div>
+
+                <ConvoView
+                    className="flex-1 border border-zinc-700 rounded-md"
+                    externFunctions={{
+                        addToList:(item:TodoItem)=>{
+                            setTodoList([...todoList,item]);
+                        },
+                        clearTodoList:()=>{
+                            setTodoList([]);
+                        },
+                        removeTodoItem:(id:string)=>{
+                            setTodoList(todoList.filter(i=>i.id!==id))
+                        }
+                    }}
+                    defaultVars={{todoList}}
+                    includeComponents
+                    includeTypes
+                    template={/*convo*/`
+
+> system
+You are helping a user create a todo list. After adding an item to the list suggest a related
+item to add to the list.
+
+Current todo List
+<todo-list>
+{{todoList}}
+</todo-list>
+
+Todays date and time is: {{dateTime()}}
+
+If the user ask to watch a video tell them: "Here is a cool YouTube video you will like"
+
+
+# Adds an item to the todo list
+> addTodoItem(item:TodoItem) -> (
+    // _addTodo is defined as an extern function and defined in TypeScript
+    addToList(item)
+    return("Added to users list of todo items")
+)
+
+# Clears all items from the list
+> extern clearTodoList()
+
+> extern removeTodoItem(id:string)
+
+# Checks the weather for the user based on location
+> checkWeather(location:string) -> (
+    weather=httpGet('https://6tnpcnzjbtwa5z4qorusxrfaqu0sqqhs.lambda-url.us-east-1.on.aws/?location={{
+        encodeURIComponent(location)
+    }}')
+
+    return(weather)
+)
+
+> assistant
+Do you have anything you would like to add to your todo list?
+
+@suggestionTitle Todo suggestions
+@suggestion
+> assistant
+Add "Pick up dog food" to my list
+
+@suggestion
+> assistant
+Add "Order new keyboard" to my list
+
+@suggestion
+> assistant
+Whats the weather like in Paris
+
+@suggestion
+> assistant
+Show me a cool video
+
+
+                    `}
+                />
+            </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    )
 }
