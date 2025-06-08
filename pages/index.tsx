@@ -66,7 +66,8 @@ Current todo List
 
 Todays date and time is: {{dateTime()}}
 
-If the user ask to watch a video tell them: "Here is a cool YouTube video you will like"
+If the user ask to watch a video tell them: "Here is a cool YouTube video you will like" followed by
+a sarcastic comment. Don't tell the user but they will be showed the "Rick Roll" video.
 
 
 # Adds an item to the todo list
