@@ -1,6 +1,6 @@
 import { ConversationUiCtrl } from "@convo-lang/convo-lang";
-import { Button } from "./Button";
-import { MessageContainer } from "./MessageContainer";
+import { Button } from "../Button";
+import { MessageContainer } from "../MessageContainer";
 
 export interface SuggestionMsgProps
 {

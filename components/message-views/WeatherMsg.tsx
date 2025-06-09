@@ -1,6 +1,6 @@
 import { GenImg } from "@convo-lang/convo-lang-react";
 import { CloudLightning, CloudRain, CloudSnow, Cloudy, Sun, ThermometerSnowflake, Waves } from "lucide-react";
-import { MessageContainer } from "./MessageContainer";
+import { MessageContainer } from "../MessageContainer";
 
 export interface WeatherMsgProps
 {

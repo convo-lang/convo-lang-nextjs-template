@@ -1,3 +1,4 @@
+import { MarkdownViewer } from "@convo-lang/convo-lang-react";
 import { cn } from "@iyio/common";
 
 export interface MessageContainerProps
@@ -26,7 +27,11 @@ export function MessageContainer({
             )}
             style={{maxWidth}}
         >
-            {children}
+            {typeof children === 'string'?
+                <MarkdownViewer markdown={children}/>
+            :
+                children
+            }
         </div>
     )
 

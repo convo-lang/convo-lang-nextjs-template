@@ -1,11 +1,10 @@
 import { convoComps, convoTypes } from "@/convo-generated/convo";
 import { convoCompReg } from "@/convo-generated/convo-comp-reg";
-import { ConversationUiCtrl } from "@convo-lang/convo-lang";
+import { ConvoComponentRenderer } from "@convo-lang/convo-lang";
 import { ConversationView, ConversationViewProps, ConvoLangTheme, defaultDarkConvoLangTheme } from "@convo-lang/convo-lang-react";
-import { BaseLayoutOuterProps } from "@iyio/common";
+import { BaseLayoutOuterProps, asArray } from "@iyio/common";
 import { NextJsBaseLayoutView } from "@iyio/nextjs-common";
-import { useSubject } from "@iyio/react-common";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 const defaultTheme:ConvoLangTheme={
     ...defaultDarkConvoLangTheme,
@@ -22,9 +21,8 @@ const defaultTheme:ConvoLangTheme={
 
 export interface ConvoViewProps extends ConversationViewProps
 {
-    onStateChange?:(state:Record<string,any>)=>void;
     includeTypes?:boolean;
-    includeComponents?:boolean;
+    includeComponents?:boolean|(keyof typeof convoCompReg)|(keyof typeof convoCompReg)[];
 }
 
 export function ConvoView({
@@ -34,37 +32,37 @@ export function ConvoView({
     httpEndpoint="/api/convo-lang",
     template,
     inputProps,
-    onStateChange,
-    getCtrl,
-    includeTypes,
     includeComponents,
+    includeTypes=includeComponents?true:false,
     ...props
 }:ConvoViewProps & BaseLayoutOuterProps){
 
-    const [ctrl,setCtrl]=useState<ConversationUiCtrl|null>(null);
-    const convo=useSubject(ctrl?.convoSubject);
-    const flat=useSubject(convo?.flatSubject);
-
-    useEffect(()=>{
-        if(flat && onStateChange){
-            onStateChange({...flat.vars});
+    const reg=useMemo(()=>{
+        if(!includeComponents){
+            return undefined;
         }
-    },[flat,onStateChange]);
-
-    useEffect(()=>{
-        if(ctrl && getCtrl){
-            getCtrl(ctrl);
+        if(typeof includeComponents === 'boolean'){
+            return convoCompReg;
         }
-    },[ctrl,getCtrl]);
+        const reg:Record<string,ConvoComponentRenderer>={};
+        const ary=asArray(includeComponents);
+        for(const name of ary){
+            const c=convoCompReg[name];
+            if(c){
+                reg[name]=c;
+            }
+        }
+        return reg;
+    },[includeComponents])
 
     return (
         <NextJsBaseLayoutView flex1 col>
             <ConversationView
                 theme={theme}
-                getCtrl={setCtrl}
                 showInputWithSource={showInputWithSource}
                 enabledSlashCommands={enabledSlashCommands}
-                componentRenderers={includeComponents?convoCompReg:undefined}
+                componentRenderers={reg}
+                enableMarkdown
                 template={globalThis.window/*only render convo client side*/?(
                     (includeTypes?convoTypes+'\n':'')+
                     (includeComponents?convoComps+'\n':'')+

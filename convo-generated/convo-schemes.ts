@@ -1,5 +1,12 @@
 import { z } from "zod";
 
+export const TodoItemConvoBindingScheme=z.object({
+    id:z.string().describe("Unique Id of the item"),
+    todo:z.string().describe("What to do"),
+    date:z.string().optional().describe("The date and time in ISO format the item is due or scheduled. Leave undefined if no date is specified."),
+    complete:z.boolean().optional(),
+});
+
 export const SuggestionMsgPropsConvoBindingScheme=z.object({
     message:z.string().describe("Full message from user"),
     suggestions:z.string().array(),
@@ -14,12 +21,6 @@ export const WeatherMsgPropsConvoBindingScheme=z.object({
 
 export const YouTubeVideoMsgPropsConvoBindingScheme=z.object({
     message:z.string().describe("Original user message."),
-});
-
-export const TodoItemConvoBindingScheme=z.object({
-    id:z.string().describe("Unique Id of the item"),
-    todo:z.string().describe("What to do"),
-    date:z.string().optional().describe("The date and time in ISO format the item is due or scheduled. Leave undefined if no date is specified."),
-    complete:z.boolean().optional(),
+    videoId:z.string().describe("Id of video to play"),
 });
 

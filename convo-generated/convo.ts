@@ -1,6 +1,16 @@
 export const convoTypes=/*convo*/`
 > define
 
+TodoItem=struct(
+    # Unique Id of the item
+    id:string
+    # What to do
+    todo:string
+    # The date and time in ISO format the item is due or scheduled. Leave undefined if no date is specified.
+    date?:string
+    complete?:boolean
+)
+
 SuggestionMsgProps=struct(
     # Full message from user
     message:string
@@ -19,16 +29,8 @@ WeatherMsgProps=struct(
 YouTubeVideoMsgProps=struct(
     # Original user message.
     message:string
-)
-
-TodoItem=struct(
-    # Unique Id of the item
-    id:string
-    # What to do
-    todo:string
-    # The date and time in ISO format the item is due or scheduled. Leave undefined if no date is specified.
-    date?:string
-    complete?:boolean
+    # Id of video to play
+    videoId:string
 )
 
 `;

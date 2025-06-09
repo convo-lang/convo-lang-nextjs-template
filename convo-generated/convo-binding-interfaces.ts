@@ -1,3 +1,19 @@
+export interface TodoItemConvoBinding{
+    /**
+     * Unique Id of the item
+     */
+    id:string;
+    /**
+     * What to do
+     */
+    todo:string;
+    /**
+     * The date and time in ISO format the item is due or scheduled. Leave undefined if no date is specified.
+     */
+    date?:string;
+    complete?:boolean;
+}
+
 export interface SuggestionMsgPropsConvoBinding{
     /**
      * Full message from user
@@ -24,21 +40,9 @@ export interface YouTubeVideoMsgPropsConvoBinding{
      * Original user message.
      */
     message:string;
-}
-
-export interface TodoItemConvoBinding{
     /**
-     * Unique Id of the item
+     * Id of video to play
      */
-    id:string;
-    /**
-     * What to do
-     */
-    todo:string;
-    /**
-     * The date and time in ISO format the item is due or scheduled. Leave undefined if no date is specified.
-     */
-    date?:string;
-    complete?:boolean;
+    videoId:string;
 }
 

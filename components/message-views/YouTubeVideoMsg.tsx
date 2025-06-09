@@ -1,4 +1,4 @@
-import { MessageContainer } from "./MessageContainer";
+import { MessageContainer } from "../MessageContainer";
 
 export interface YouTubeVideoMsgProps
 {
@@ -6,6 +6,11 @@ export interface YouTubeVideoMsgProps
      * Original user message.
      */
     message:string;
+
+    /**
+     * Id of video to play
+     */
+    videoId:string;
 }
 
 /**
@@ -13,7 +18,8 @@ export interface YouTubeVideoMsgProps
  * @convoComponent
  */
 export function YouTubeVideoMsg({
-    message
+    message,
+    videoId
 }:YouTubeVideoMsgProps){
 
     return (
@@ -25,7 +31,7 @@ export function YouTubeVideoMsg({
             <iframe
                 width="560"
                 height="315"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=FjcNlqcV5dtb20Tu&autoplay=1"
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
                 title="Cool video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"

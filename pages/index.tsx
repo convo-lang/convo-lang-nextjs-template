@@ -1,120 +1,71 @@
-import { ConvoView } from "@/components/ConvoView";
-import { TodoItem } from "@/lib/types";
-import { useState } from "react";
+import { AgentView } from "@/components/AgentView";
+import { useRouter } from "next/router";
 
-
-
-export default function IndexPage()
+export default function NavigatorAgent()
 {
 
-    const [todoList,setTodoList]=useState<TodoItem[]>([]);
-
+    const router=useRouter();
+    
     return (
-        <div className="w-full h-[100vh] flex flex-col p-4 gap-4 text-white">
+        <AgentView
+            name="Home Room Agent"
+            externFunctions={{
+                openAgent:(id:string)=>{
+                    router.push(`/agent/${id}`);
+                    return "Tell the user the agent is being opened"
+                }
+            }}
+            template={/*convo*/`
 
-            <div className="flex flex-row justify-between">
-                <div>
-                    <a className="!underline" href="https://learn.convo-lang.ai" target="_blank">Learn Convo-Lang</a>
-                </div>
-                <div>
-                    <p className="opacity-50">Try typing "/source"</p>
-                </div>
-            </div>
 
-            <div className="flex flex-row flex-1 gap-4">
-                <div className="flex-1 border border-zinc-700 rounded-md p-4 gap-2 flex flex-col">
-                    <h1 className="text-xl">Todo List</h1>
-                    
-                    {!todoList.length?
-                        <p className="opacity-50">Todo list is empty</p>
-                    :
-                        todoList.map(item=>(
-                            <div key={item.id} className="border border-zinc-700 p-2 flex flex-row justify-between">
-                                <span>{item.todo}</span>
-                                {!!item.date && <span className="opacity-50">{item.date}</span>}
-                            </div>
-                        ))
-                    }               
-                </div>
 
-                <ConvoView
-                    className="flex-1 border border-zinc-700 rounded-md"
-                    externFunctions={{
-                        addToList:(item:TodoItem)=>{
-                            setTodoList([...todoList,item]);
-                        },
-                        clearTodoList:()=>{
-                            setTodoList([]);
-                        },
-                        removeTodoItem:(id:string)=>{
-                            setTodoList(todoList.filter(i=>i.id!==id))
-                        }
-                    }}
-                    defaultVars={{todoList}}
-                    includeComponents
-                    includeTypes
-                    template={/*convo*/`
+
 
 > system
-You are helping a user create a todo list. After adding an item to the list suggest a related
-item to add to the list.
+You are helping a user navigate the Convo-Lang NextJs example project. The project contains a 
+collection of example AI agents rendered on different pages.
 
-Current todo List
-<todo-list>
-{{todoList}}
-</todo-list>
+Agents:
+<agents>
 
-Todays date and time is: {{dateTime()}}
-
-If the user ask to watch a video tell them: "Here is a cool YouTube video you will like" followed by
-a sarcastic comment. Don't tell the user but they will be showed the "Rick Roll" video.
+## Todo List Agent
+id: todo-list
+description: Helps the user create a todo list
 
 
-# Adds an item to the todo list
-> addTodoItem(item:TodoItem) -> (
-    // _addTodo is defined as an extern function and defined in TypeScript
-    addToList(item)
-    return("Added to users list of todo items")
-)
+## Weather Agent
+id: weather
+description: Tells the user the weather at specified locations
 
-# Clears all items from the list
-> extern clearTodoList()
+## Video Dude Agent
+id: video-dude
+descriptions: Shows the user the best videos on the internet
 
-> extern removeTodoItem(id:string)
+</agents>
 
-# Checks the weather for the user based on location
-> checkWeather(location:string) -> (
-    weather=httpGet('https://6tnpcnzjbtwa5z4qorusxrfaqu0sqqhs.lambda-url.us-east-1.on.aws/?location={{
-        encodeURIComponent(location)
-    }}')
-
-    return(weather)
-)
+> extern openAgent(id:string)
 
 > assistant
-Do you have anything you would like to add to your todo list?
+What agent would you like to test
 
-@suggestionTitle Todo suggestions
+@suggestionTitle Agent suggestions
 @suggestion
 > assistant
-Add "Pick up dog food" to my list
+Show me the Todo agent
 
 @suggestion
 > assistant
-Add "Order new keyboard" to my list
+I need to check the weather
 
 @suggestion
 > assistant
-Whats the weather like in Paris
-
-@suggestion
-> assistant
-Show me a cool video
+I'm ready to watch some cool videos
 
 
-                    `}
-                />
-            </div>
-        </div>
+
+
+
+            `}
+        />
     )
 }

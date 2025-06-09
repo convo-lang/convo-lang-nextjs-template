@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <title>Convo-Lang NextJs</title>
                 <meta name="description" content="Convo-Lang NextJS starter template" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/logo-icon.png" />
             </Head>
             <Component {...pageProps} />
         </>
