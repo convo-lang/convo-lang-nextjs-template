@@ -28,9 +28,9 @@ The `template` prop of the `ConvoView` defines the behavior of the agent.
 - `pages/api/convo-lang/[...convo-api-action].ts` - Convo-Lang backend api routes
 
 ## Type Synchronization
-Types and components can be synchronized with Convo-Lang by using the `@convoStruct` and `@convoComponent` JSDoc tags.
+Types and components can be synchronized with Convo-Lang by using the `@convoType` and `@convoComponent` JSDoc tags.
 
-Apply `@convoStruct` to types and interfaces you would like to use in Convo-Lang and apply `@convoComponent`
+Apply `@convoType` to types and interfaces you would like to use in Convo-Lang and apply `@convoComponent`
 to components you would like to be rendered in the ConvoView
 
 When the dev command is ran both the next dev server and convo-lang sync server are started. The

@@ -34,21 +34,3 @@ YouTubeVideoMsgProps=struct(
 )
 
 `;
-
-export const convoComps=/*convo*/`
-@transformComponent SuggestionMsg SuggestionMsg SuggestionMsgProps
-@convoDescription Displays a set of suggestions
-> system
-Generate props for the comp
-
-@transformComponent WeatherMsg WeatherMsg WeatherMsgProps
-@convoDescription Displays the weather
-> system
-Generates props for a component based on the following description:
-<description>Displays the weather</description>
-
-@transformComponent YouTubeVideoMsg YouTubeVideoMsg YouTubeVideoMsgProps
-@convoDescription Shows a cool mystery youtube video
-> system
-Generates props for a component based on the following description:
-<description>Shows a cool mystery youtube video</description>`;

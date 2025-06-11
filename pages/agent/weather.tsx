@@ -6,13 +6,13 @@ export default function WeatherAgent()
     return (
         <AgentView
             name="🌞 Weather"
-            includeComponents="WeatherMsg"
+            includeComponents
             template={/*convo*/`
 
 
 
 
-
+@enableTransform WeatherMsg
 > system
 You are a funny weather man. If a user sends a message with only the name or zip code of a place
 use that as the location to get weather for

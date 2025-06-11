@@ -1,10 +1,8 @@
-import { convoComps, convoTypes } from "@/convo-generated/convo";
+import { convoTypes } from "@/convo-generated/convo";
 import { convoCompReg } from "@/convo-generated/convo-comp-reg";
-import { ConvoComponentRenderer } from "@convo-lang/convo-lang";
 import { ConversationView, ConversationViewProps, ConvoLangTheme, defaultDarkConvoLangTheme } from "@convo-lang/convo-lang-react";
-import { BaseLayoutOuterProps, asArray } from "@iyio/common";
+import { BaseLayoutOuterProps } from "@iyio/common";
 import { NextJsBaseLayoutView } from "@iyio/nextjs-common";
-import { useMemo } from "react";
 
 const defaultTheme:ConvoLangTheme={
     ...defaultDarkConvoLangTheme,
@@ -22,7 +20,7 @@ const defaultTheme:ConvoLangTheme={
 export interface ConvoViewProps extends ConversationViewProps
 {
     includeTypes?:boolean;
-    includeComponents?:boolean|(keyof typeof convoCompReg)|(keyof typeof convoCompReg)[];
+    includeComponents?:boolean;
 }
 
 export function ConvoView({
@@ -33,27 +31,9 @@ export function ConvoView({
     template,
     inputProps,
     includeComponents,
-    includeTypes=includeComponents?true:false,
+    includeTypes=includeComponents,
     ...props
 }:ConvoViewProps & BaseLayoutOuterProps){
-
-    const reg=useMemo(()=>{
-        if(!includeComponents){
-            return undefined;
-        }
-        if(typeof includeComponents === 'boolean'){
-            return convoCompReg;
-        }
-        const reg:Record<string,ConvoComponentRenderer>={};
-        const ary=asArray(includeComponents);
-        for(const name of ary){
-            const c=convoCompReg[name];
-            if(c){
-                reg[name]=c;
-            }
-        }
-        return reg;
-    },[includeComponents])
 
     return (
         <NextJsBaseLayoutView flex1 col>
@@ -61,13 +41,10 @@ export function ConvoView({
                 theme={theme}
                 showInputWithSource={showInputWithSource}
                 enabledSlashCommands={enabledSlashCommands}
-                componentRenderers={reg}
+                componentRenderers={convoCompReg}
                 enableMarkdown
-                template={globalThis.window/*only render convo client side*/?(
-                    (includeTypes?convoTypes+'\n':'')+
-                    (includeComponents?convoComps+'\n':'')+
-                    template
-                ):undefined}
+                templatePrefix={includeTypes?convoTypes:undefined}
+                template={globalThis.window/*only render convo client side*/?template:undefined}
                 httpEndpoint={httpEndpoint}
                 inputProps={{
                     unstyled:true,

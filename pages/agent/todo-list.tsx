@@ -13,7 +13,7 @@ export default function TodoListAgent()
     return (
         <AgentView
             name="🧐 Todo"
-            includeComponents="SuggestionMsg"
+            includeComponents
             externFunctions={{
                 addToList:(item:TodoItem)=>{
                     setTodoList([...todoList,item]);
@@ -30,7 +30,7 @@ export default function TodoListAgent()
 
 
 
-
+@enableTransform SuggestionMsg
 > system
 You are helping a user create a todo list. After adding an item to the list suggest a related
 item to add to the list.

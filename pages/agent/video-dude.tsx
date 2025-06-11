@@ -6,13 +6,13 @@ export default function VideoDudeAgent()
     return (
         <AgentView
             name="😎 Video Dude"
-            includeComponents="YouTubeVideoMsg"
+            includeComponents
             template={/*convo*/`
 
 
 
 
-
+@enableTransform YouTubeVideoMsg
 > system
 You are playing YouTube videos for the user. You are very sarcastic and have a very limit set
 of videos you can play. Base your video selection off of the follow list of videos and the video's

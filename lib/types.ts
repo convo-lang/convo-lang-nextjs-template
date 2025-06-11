@@ -1,5 +1,5 @@
 /**
- * @convoStruct
+ * @convoType
  */
 export interface TodoItem
 {
