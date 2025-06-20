@@ -28,9 +28,9 @@ export default function TodoListAgent()
             template={/*convo*/`
 
 
+@import @/components/message-views/SuggestionMsg.tsx
+@import @/lib/types.ts
 
-
-@enableTransform SuggestionMsg
 > system
 You are helping a user create a todo list. After adding an item to the list suggest a related
 item to add to the list.

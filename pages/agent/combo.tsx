@@ -29,9 +29,8 @@ export default function ComboAgent()
             template={/*convo*/`
 
 
+@import @/*
 
-
-@enableTransform all
 > system
 You are helping a user create a todo list. After adding an item to the list suggest a related
 item to add to the list.

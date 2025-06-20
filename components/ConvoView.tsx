@@ -1,5 +1,6 @@
-import { convoTypes } from "@/convo-generated/convo";
-import { convoCompReg } from "@/convo-generated/convo-comp-reg";
+import { ConvoPackagePath } from "@/convo-generated/convoPackage";
+import { convoPackageComponentModules } from "@/convo-generated/convoPackageComponentModules";
+import { convoPackageModules } from "@/convo-generated/convoPackageModules";
 import { ConversationView, ConversationViewProps, ConvoLangTheme, defaultDarkConvoLangTheme } from "@convo-lang/convo-lang-react";
 import { BaseLayoutOuterProps } from "@iyio/common";
 import { NextJsBaseLayoutView } from "@iyio/nextjs-common";
@@ -17,10 +18,11 @@ const defaultTheme:ConvoLangTheme={
     userBorder:'1px solid rgba(255, 255, 255, 0.11)'
 }
 
-export interface ConvoViewProps extends ConversationViewProps
+export interface ConvoViewProps extends Omit<ConversationViewProps,'imports'>
 {
     includeTypes?:boolean;
     includeComponents?:boolean;
+    imports?:ConvoPackagePath|ConvoPackagePath[];
 }
 
 export function ConvoView({
@@ -30,8 +32,6 @@ export function ConvoView({
     httpEndpoint="/api/convo-lang",
     template,
     inputProps,
-    includeComponents,
-    includeTypes=includeComponents,
     ...props
 }:ConvoViewProps & BaseLayoutOuterProps){
 
@@ -41,9 +41,9 @@ export function ConvoView({
                 theme={theme}
                 showInputWithSource={showInputWithSource}
                 enabledSlashCommands={enabledSlashCommands}
-                componentRenderers={convoCompReg}
+                modules={[...convoPackageModules,...convoPackageComponentModules]}
+                enabledInitMessage
                 enableMarkdown
-                templatePrefix={includeTypes?convoTypes:undefined}
                 template={globalThis.window/*only render convo client side*/?template:undefined}
                 httpEndpoint={httpEndpoint}
                 inputProps={{

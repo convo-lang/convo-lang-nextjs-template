@@ -41,6 +41,10 @@ description: Tells the user the weather at specified locations
 id: video-dude
 descriptions: Shows the user the best videos on the internet
 
+## Crypto Man
+id: crypto-man
+descriptions: Tells the user live up to date crypto coin prices
+
 </agents>
 
 > extern openAgent(id:string)
@@ -60,6 +64,10 @@ I need to check the weather
 @suggestion
 > assistant
 I'm ready to watch some cool videos
+
+@suggestion
+> assistant
+I need to check the price of my crypto coins
 
 
 

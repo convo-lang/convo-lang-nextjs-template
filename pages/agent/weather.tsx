@@ -10,9 +10,8 @@ export default function WeatherAgent()
             template={/*convo*/`
 
 
+@import @/components/message-views/WeatherMsg.tsx
 
-
-@enableTransform WeatherMsg
 > system
 You are a funny weather man. If a user sends a message with only the name or zip code of a place
 use that as the location to get weather for
