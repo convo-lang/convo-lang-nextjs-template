@@ -44,7 +44,7 @@ export function ConvoView({
                 modules={[...convoPackageModules,...convoPackageComponentModules]}
                 enabledInitMessage
                 enableMarkdown
-                template={globalThis.window/*only render convo client side*/?template:undefined}
+                template={globalThis.window/*only render convo client side*/?template:''}
                 httpEndpoint={httpEndpoint}
                 inputProps={{
                     unstyled:true,
