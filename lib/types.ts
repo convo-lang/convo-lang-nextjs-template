@@ -20,3 +20,12 @@ export interface TodoItem
 
     complete?:boolean;
 }
+
+/**
+ * @convoType
+ */
+export interface Answer{
+    topic:string
+    question:string
+    answer:string
+}

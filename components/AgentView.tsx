@@ -25,6 +25,7 @@ export function AgentView({
                     <Link href="/agent/weather" className="!underline">weather</Link>
                     <Link href="/agent/video-dude" className="!underline">video</Link>
                     <Link href="/agent/crypto-man" className="!underline">crypto</Link>
+                    <Link href="/agent/interview" className="!underline">interview</Link>
                 </div>
                     <h1 className="text-lg !ml-2">
                         {name}

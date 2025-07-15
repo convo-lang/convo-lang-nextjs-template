@@ -29,6 +29,12 @@ TodoItem=struct(
     complete?:boolean
 )
 
+Answer=struct(
+    topic:string
+    question:string
+    answer:string
+)
+
 
         `,
     },
