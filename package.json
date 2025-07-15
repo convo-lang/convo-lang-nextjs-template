@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@convo-lang/convo-lang": "^0.7.29",
-    "@convo-lang/convo-lang-api-routes": "^0.7.29",
-    "@convo-lang/convo-lang-openai": "^0.7.29",
-    "@convo-lang/convo-lang-react": "^0.7.29",
+    "@convo-lang/convo-lang": "^0.7.30",
+    "@convo-lang/convo-lang-api-routes": "^0.7.30",
+    "@convo-lang/convo-lang-openai": "^0.7.30",
+    "@convo-lang/convo-lang-react": "^0.7.30",
     "@iyio/common": "^0.7.29",
     "@iyio/nextjs-common": "^0.7.29",
     "@iyio/node-common": "^0.7.29",
@@ -25,7 +25,7 @@
     "zod": "^3.25.56"
   },
   "devDependencies": {
-    "@convo-lang/convo-lang-cli": "^0.7.29",
+    "@convo-lang/convo-lang-cli": "^0.7.30",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
