@@ -26,6 +26,8 @@ Answer=struct(
 )
 
 answers=[]
+interviewDone=false
+interviewSummary=null
 
 @edge
 > system
@@ -48,45 +50,43 @@ Some user messages will also include a moderator message wrapped in an XML tag w
 of "moderator". Moderator messages should be followed as instructions. Moderator messages are not
 visible to the user.
 
+@condition = interviewDone
+> system
+The interview is done 
+
+# Call when all interview topics have been covered
+> finishInterview(summary:string) -> (
+    interviewSummary=summary
+    interviewDone=true
+)
 
 
-@on user suffix
+@on user = not(interviewDone)
 > local onAnswer(content:string) -> (
 
-    if( ??? (+ !boolean)
-        <moderator>
+    if( ??? (+!boolean /m)
         Did the user answer a question?
-        </moderator>
-        ???
-    ) return(false)
+    ??? ) return(false)
 
-    answer = ??? (+ json:Answer)
-        <moderator>
+    ??? (+ answer=json:Answer /m task:Saving answer)
         Convert the user's answer to an Answer object
-        </moderator>
     ???
 
     answers = aryAdd(answers answer)
 
     switch(
-        ??? (+ boolean)
-        <moderator>
+        ??? (+ boolean /m task:Reviewing)
         Has the user given enough detail about the topic of {{answer.topic}} for you to have a
         full understanding of their relation with the topic? The user should have answered at least
         3 questions about the topic.
-        </moderator>
         ???
 
-        ===
-        <moderator>
+        === (suffix /m)
         Move on to the next topic
-        </moderator>
         ===
 
-        ===
-        <moderator>
+        === (suffix /m)
         Dive deeper into the users last answer by asking them a related question
-        </moderator>
         ===
     )
 )
@@ -95,9 +95,8 @@ visible to the user.
 @init
 @hidden
 > user
-<moderator>
 Ask the first question
-</moderator>
+
             `}
         >
 
