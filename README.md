@@ -4,6 +4,16 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`convo --crea
 
 First, add your OpenAI API key to `.env.development`
 
+Copy example env file to `.env.development` 
+``` sh
+cp example.env.development .env.development
+```
+
+Add your OpenAI API key to `.env.development` 
+``` sh
+OPENAI_API_KEY={YOUR_OPEN_AI_API_KEY}
+```
+
 Second, run the development server:
 
 ```bash
@@ -17,6 +27,28 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+Anytime you are chatting with an agent you can use the `/source` slash command to view the full Convo-Lang source of the conversation.
+
+**Here is a full list of slash commands you can use in the chat view:**
+
+| Command    | Description                                             |
+|------------|---------------------------------------------------------|
+| /source    | Display convo script source                             |
+| /imports   | Display convo script source and imported modules        |
+| /modules   | Display convo script source and registered modules      |
+| /models    | Display all registered LLM models                       |
+| /ui        | Display convo chat conversation UI                      |
+| /flat      | Display the convo as flat messages                      |
+| /text      | Display as convo script with all text content evaluated |
+| /vars      | Display all defined user variables                      |
+| /tree      | Displays the syntax tree                                |
+| /system    | Display system messages                                 |
+| /function  | Display function messages                               |
+| /results   | Display function call results                           |
+| /convert   | Display messages in the format of the current model     |
+| /clear     | Clears all messages                                     |
+| /help      | Prints this help message                                |
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 

@@ -4,6 +4,32 @@ import { z } from "zod";
 
 export const convoPackageModules:ConvoModule[]=[
     {
+        name:"@/lib/example-functions/crypto.ts",
+        externFunctions:{
+            getCryptoTokenInfo,
+        },
+        functionParamSchemes:{
+            getCryptoTokenInfo:[
+                z.string(),
+            ],
+        },
+        convo:/*convo*/`
+
+
+> define
+
+
+
+# Returns information about crypto coins by their symbol.
+> extern getCryptoTokenInfo(
+    # The symbol of the coin to get information about. For example BitCoin's symbol is BTC and Ethereum's is ETH
+    symbol:string
+)
+        `,
+    },
+
+
+    {
         name:"@/lib/types.ts",
         typeSchemes:{
             TodoItem:z.object({
@@ -36,32 +62,6 @@ Answer=struct(
 )
 
 
-        `,
-    },
-
-
-    {
-        name:"@/lib/example-functions/crypto.ts",
-        externFunctions:{
-            getCryptoTokenInfo,
-        },
-        functionParamSchemes:{
-            getCryptoTokenInfo:[
-                z.string(),
-            ],
-        },
-        convo:/*convo*/`
-
-
-> define
-
-
-
-# Returns information about crypto coins by their symbol.
-> extern getCryptoTokenInfo(
-    # The symbol of the coin to get information about. For example BitCoin's symbol is BTC and Ethereum's is ETH
-    symbol:string
-)
         `,
     },
 
