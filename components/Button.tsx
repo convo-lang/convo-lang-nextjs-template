@@ -6,6 +6,7 @@ export interface ButtonProps
     children?:any;
     onClick?:()=>void;
     secondary?:boolean;
+    type?:'button'|'submit'
 }
 
 export function Button({
@@ -13,10 +14,11 @@ export function Button({
     children,
     onClick,
     secondary,
+    type='button'
 }:ButtonProps){
 
     return (
-        <button className={cn(
+        <button type={type} className={cn(
             className,
             'border rounded-sm p-2 text-center cursor-pointer',
             secondary?

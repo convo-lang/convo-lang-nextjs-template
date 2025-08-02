@@ -3,7 +3,6 @@ import { convoPackageComponentModules } from "@/convo-generated/convoPackageComp
 import { convoPackageModules } from "@/convo-generated/convoPackageModules";
 import { ConversationView, ConversationViewProps, ConvoLangTheme, defaultDarkConvoLangTheme } from "@convo-lang/convo-lang-react";
 import { BaseLayoutOuterProps } from "@iyio/common";
-import { NextJsBaseLayoutView } from "@iyio/nextjs-common";
 
 const defaultTheme:ConvoLangTheme={
     ...defaultDarkConvoLangTheme,
@@ -36,24 +35,22 @@ export function ConvoView({
 }:ConvoViewProps & BaseLayoutOuterProps){
 
     return (
-        <NextJsBaseLayoutView flex1 col>
-            <ConversationView
-                theme={theme}
-                showInputWithSource={showInputWithSource}
-                enabledSlashCommands={enabledSlashCommands}
-                modules={[...convoPackageModules,...convoPackageComponentModules]}
-                enabledInitMessage
-                enableMarkdown
-                template={globalThis.window/*only render convo client side*/?template:''}
-                httpEndpoint={httpEndpoint}
-                inputProps={{
-                    unstyled:true,
-                    className:'convo-inputContainer',
-                    inputClassName:'convo-input',
-                }}
-                {...props}
-            />
-        </NextJsBaseLayoutView>
+        <ConversationView
+            theme={theme}
+            showInputWithSource={showInputWithSource}
+            enabledSlashCommands={enabledSlashCommands}
+            modules={[...convoPackageModules,...convoPackageComponentModules]}
+            enabledInitMessage
+            enableMarkdown
+            template={globalThis.window/*only render convo client side*/?template:''}
+            httpEndpoint={httpEndpoint}
+            inputProps={{
+                unstyled:true,
+                className:'convo-inputContainer',
+                inputClassName:'convo-input',
+            }}
+            {...props}
+        />
     )
 
 }

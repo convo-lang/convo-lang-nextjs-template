@@ -47,6 +47,7 @@ export const chainExample=async (
         > user
         Return Bob as a person
     `)
+    console.log({person});
 
     console.log('Result convo',cv.convo)
 
